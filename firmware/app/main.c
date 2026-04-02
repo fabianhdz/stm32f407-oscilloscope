@@ -1,7 +1,9 @@
-#include "stm32f4xx_hal.h"
+#include "board.h"
 void _init(void) {}
 void _fini(void) {}
 int main(void)
 {
+    board_init();
+    board_pins_init();
     for (;;) __WFI();
 }
