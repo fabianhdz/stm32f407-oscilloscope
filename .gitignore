@@ -1,0 +1,8 @@
+/build/
+/third_party/stm32_hal/
+/third_party/cmsis_device/
+/third_party/cmsis_core/
+/third_party/freertos/
+/third_party/cmsis_dsp/
+__pycache__/
+*.pyc
