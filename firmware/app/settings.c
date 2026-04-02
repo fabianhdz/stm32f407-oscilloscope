@@ -15,9 +15,9 @@ bool scope_settings_valid(const scope_settings_t *s)
 {
     return s && s->timebase < SCOPE_TIMEBASES && s->voltscale < SCOPE_VSCALES &&
         s->trigger_code <= 4095 && s->hysteresis <= 2047 &&
-        s->mode >= TRIGGER_AUTO && s->mode <= TRIGGER_SINGLE &&
-        s->edge >= EDGE_RISING && s->edge <= EDGE_FALLING &&
-        s->view >= VIEW_WAVEFORM && s->view <= VIEW_SPECTRUM;
+        (unsigned)s->mode <= TRIGGER_SINGLE &&
+        (unsigned)s->edge <= EDGE_FALLING &&
+        (unsigned)s->view <= VIEW_SPECTRUM;
 }
 uint32_t scope_requested_rate(const scope_settings_t *s)
 {
