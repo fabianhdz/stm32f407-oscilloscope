@@ -20,6 +20,7 @@ target_include_directories(stm32_hal PUBLIC firmware/board)
 target_compile_definitions(stm32_hal PUBLIC STM32F407xx USE_HAL_DRIVER)
 add_executable(oscilloscope
   firmware/app/main.c
+  firmware/drivers/uart_log.c
   firmware/board/clock.c firmware/board/pins.c firmware/board/fault.c
   ${DEPS}/cmsis_device/Source/Templates/system_stm32f4xx.c
   ${DEPS}/cmsis_device/Source/Templates/gcc/startup_stm32f407xx.s)
