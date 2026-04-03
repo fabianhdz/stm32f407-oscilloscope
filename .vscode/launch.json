@@ -1,0 +1,18 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "STM32F407 (ST-Link)",
+      "type": "cortex-debug",
+      "request": "launch",
+      "servertype": "openocd",
+      "cwd": "${workspaceFolder}",
+      "executable": "${workspaceFolder}/build/debug/oscilloscope.elf",
+      "configFiles": [
+        "${workspaceFolder}/tools/openocd.cfg"
+      ],
+      "runToEntryPoint": "main",
+      "gdbPath": "arm-none-eabi-gdb"
+    }
+  ]
+}
