@@ -1,4 +1,5 @@
 #include "scope_types.h"
+#include "board/calibration.h"
 const uint32_t scope_timebase_us[SCOPE_TIMEBASES] = {20,50,100,200,500,1000,2000,5000,10000,20000};
 const uint16_t scope_voltscale_mv[SCOPE_VSCALES] = {50,100,200,500,1000};
 scope_settings_t scope_default_settings(void)
@@ -9,7 +10,7 @@ scope_settings_t scope_default_settings(void)
 }
 scope_calibration_t scope_default_calibration(void)
 {
-    return (scope_calibration_t){3.3f,1.0f,0.0f,1.0f};
+    return (scope_calibration_t){CAL_VREF_VOLTS,CAL_GAIN,CAL_OFFSET_VOLTS,CAL_CLOCK_SCALE};
 }
 bool scope_settings_valid(const scope_settings_t *s)
 {
