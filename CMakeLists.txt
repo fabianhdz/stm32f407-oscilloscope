@@ -7,7 +7,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(SCOPE_FIRMWARE "Build the STM32F407 image" OFF)
 option(SCOPE_SANITIZERS "Enable host address/undefined sanitizers" OFF)
 set(CORE_SOURCES firmware/app/settings.c firmware/acquisition/trigger.c
-  firmware/acquisition/capture.c)
+  firmware/acquisition/capture.c firmware/acquisition/buffer_pool.c)
 add_library(scope_core STATIC ${CORE_SOURCES})
 target_include_directories(scope_core PUBLIC firmware)
 target_compile_options(scope_core PRIVATE -Wall -Wextra -Werror -Wshadow -Wstrict-prototypes)
