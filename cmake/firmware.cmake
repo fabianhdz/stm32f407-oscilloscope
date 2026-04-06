@@ -25,6 +25,7 @@ add_executable(oscilloscope
   ${DEPS}/cmsis_device/Source/Templates/system_stm32f4xx.c
   ${DEPS}/cmsis_device/Source/Templates/gcc/startup_stm32f407xx.s)
 target_link_libraries(oscilloscope PRIVATE scope_core stm32_hal m)
+include(cmake/freertos.cmake)
 target_compile_options(oscilloscope PRIVATE -Wall -Wextra -Werror -Wshadow)
 target_link_options(oscilloscope PRIVATE
   -T${PROJECT_SOURCE_DIR}/firmware/board/stm32f407.ld
