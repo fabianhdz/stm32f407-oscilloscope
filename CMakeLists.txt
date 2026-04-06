@@ -8,10 +8,11 @@ option(SCOPE_FIRMWARE "Build the STM32F407 image" OFF)
 option(SCOPE_SANITIZERS "Enable host address/undefined sanitizers" OFF)
 set(CORE_SOURCES firmware/app/settings.c firmware/acquisition/trigger.c
   firmware/acquisition/capture.c firmware/acquisition/buffer_pool.c
-  firmware/processing/measurements.c)
+  firmware/processing/measurements.c firmware/processing/spectrum.c)
 add_library(scope_core STATIC ${CORE_SOURCES})
 target_include_directories(scope_core PUBLIC firmware)
 target_compile_options(scope_core PRIVATE -Wall -Wextra -Werror -Wshadow -Wstrict-prototypes)
+include(cmake/dsp.cmake)
 if(SCOPE_FIRMWARE)
   include(cmake/firmware.cmake)
 else()
