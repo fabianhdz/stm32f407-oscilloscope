@@ -6,7 +6,7 @@ set(CMAKE_C_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 option(SCOPE_FIRMWARE "Build the STM32F407 image" OFF)
 option(SCOPE_SANITIZERS "Enable host address/undefined sanitizers" OFF)
-set(CORE_SOURCES firmware/app/settings.c firmware/acquisition/trigger.c
+set(CORE_SOURCES firmware/app/settings.c firmware/app/mailbox.c firmware/acquisition/trigger.c
   firmware/acquisition/capture.c firmware/acquisition/buffer_pool.c
   firmware/processing/measurements.c firmware/processing/spectrum.c
   firmware/display/projection.c firmware/display/controls.c)
