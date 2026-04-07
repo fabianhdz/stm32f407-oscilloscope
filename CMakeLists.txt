@@ -10,7 +10,7 @@ set(CORE_SOURCES firmware/app/settings.c firmware/app/mailbox.c firmware/acquisi
   firmware/acquisition/capture.c firmware/acquisition/buffer_pool.c
   firmware/processing/measurements.c firmware/processing/spectrum.c
   firmware/display/projection.c firmware/display/controls.c firmware/drivers/ili9341.c
-  firmware/display/graphics.c)
+  firmware/display/graphics.c firmware/display/renderer.c)
 add_library(scope_core STATIC ${CORE_SOURCES})
 target_include_directories(scope_core PUBLIC firmware)
 target_compile_options(scope_core PRIVATE -Wall -Wextra -Werror -Wshadow -Wstrict-prototypes)
