@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720">
+<rect width="1100" height="720" fill="white"/>
+<style>text{font:16px sans-serif;fill:#152030}.title{font-size:25px;font-weight:bold}.small{font-size:13px}.wire{fill:none;stroke:#20394a;stroke-width:2}.part{fill:white;stroke:#20394a;stroke-width:2}</style>
+<text x="36" y="40" class="title">STM32F407 oscilloscope — single-channel analog front end</text>
+<text x="36" y="67">DC input 0–3.3 V · MCP6022-I/P · common signal ground · not hardware-validated</text>
+<g class="wire">
+<path d="M45 205H115 M175 205H390 M230 205V130 M230 100V90H285 M185 205V265 M185 295V350H215 M280 205V285 M280 297V350H310"/>
+<path d="M500 225H575 M635 225H850 M535 225V385H350V245H390 M725 225V285 M725 297V350H755"/>
+</g>
+<rect x="115" y="195" width="60" height="20" class="part"/>
+<text x="108" y="174">R1 1k</text><text x="35" y="232">J1 SIG</text>
+<circle cx="230" cy="205" r="4" fill="#20394a"/><circle cx="280" cy="205" r="4" fill="#20394a"/>
+<circle cx="185" cy="205" r="4" fill="#20394a"/>
+<path d="M220 130L240 130L230 110Z M218 110H242 M218 110V105 M242 110V115" class="part"/>
+<text x="250" y="117">D1 BAT85</text><text x="288" y="95">3.3 V</text>
+<text x="250" y="140" class="small">cathode toward 3.3 V</text>
+<path d="M175 295L195 295L185 275Z M173 275H197 M173 275V270 M197 275V280" class="part"/>
+<text x="40" y="285">D2 BAT85</text><text x="40" y="309" class="small">cathode toward FILTER</text>
+<path d="M268 285H292 M268 297H292 M713 285H737 M713 297H737" class="wire"/>
+<text x="295" y="283">C1</text><text x="295" y="305">2.2nF</text>
+<text x="740" y="283">C2</text><text x="740" y="305">470pF</text>
+<text x="180" y="373" class="small">GND</text><text x="275" y="373" class="small">GND</text><text x="720" y="373" class="small">GND</text>
+<polygon points="390,170 390,280 500,225" class="part"/>
+<text x="394" y="210">+</text><text x="394" y="251">−</text>
+<text x="359" y="192">3</text><text x="359" y="265">2</text><text x="510" y="214">1</text>
+<text x="404" y="148">U2A MCP6022</text>
+<circle cx="535" cy="225" r="4" fill="#20394a"/>
+<rect x="575" y="215" width="60" height="20" class="part"/>
+<text x="570" y="194">R2 100Ω</text>
+<circle cx="725" cy="225" r="4" fill="#20394a"/>
+<text x="860" y="229">PA1 / ADC1_IN1</text>
+<text x="557" y="407" class="small">BUFFER feedback: pin 1 directly to pin 2</text>
+<path d="M36 430H1064" stroke="#ccd4d9"/>
+<text x="36" y="464">Supply and unused amplifier</text>
+<text x="36" y="491">U2 pin 8 → 3.3 V; pin 4 → GND</text>
+<text x="36" y="517">C3 100nF directly across pins 8/4</text>
+<text x="36" y="543">C4 10µF across 3.3 V/GND</text>
+<text x="36" y="569">J1 GND → board analog ground</text>
+<g class="wire"><path d="M530 475V490 M530 530V550 M530 590V610 M530 540H665 M665 540V555 M665 565V610"/></g>
+<rect x="520" y="490" width="20" height="40" class="part"/><rect x="520" y="550" width="20" height="40" class="part"/>
+<path d="M653 555H677 M653 565H677" class="wire"/>
+<text x="550" y="515">R3 10k</text><text x="550" y="580">R4 10k</text>
+<text x="510" y="469">3.3 V</text><text x="514" y="632">GND</text>
+<text x="685" y="558">C5 100nF to GND</text><text x="685" y="538">MID → U2 pin 5 (+B)</text>
+<text x="730" y="596">U2 pin 6 (−B) → pin 7 (OUT B)</text>
+<text x="36" y="665" class="small">D1/D2 are rail clamps only. They do not expand the allowed input range. Power the board before applying a signal.</text>
+<text x="36" y="689" class="small">R1/C1 nominal pole: 72.3kHz. This is not a steep anti-alias filter. See analog-design.md and wiring.md.</text>
+</svg>
