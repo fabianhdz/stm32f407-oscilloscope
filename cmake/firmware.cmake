@@ -1,4 +1,5 @@
 set(DEPS ${PROJECT_SOURCE_DIR}/third_party)
+option(SCOPE_DEMO_DAC "Enable PA4 1kHz DAC loopback source" OFF)
 foreach(dep stm32_hal cmsis_device cmsis_core freertos cmsis_dsp)
   if(NOT EXISTS "${DEPS}/${dep}/.git")
     message(FATAL_ERROR "Missing ${dep}; run python3 tools/bootstrap.py")
@@ -23,10 +24,12 @@ add_executable(oscilloscope
   firmware/drivers/uart_log.c
   firmware/drivers/sampler.c
   firmware/drivers/tft_bus.c
+  firmware/drivers/demo_dac.c
   firmware/board/clock.c firmware/board/pins.c firmware/board/fault.c
   ${DEPS}/cmsis_device/Source/Templates/system_stm32f4xx.c
   ${DEPS}/cmsis_device/Source/Templates/gcc/startup_stm32f407xx.s)
 target_link_libraries(oscilloscope PRIVATE scope_core stm32_hal m)
+target_compile_definitions(oscilloscope PRIVATE SCOPE_DEMO_DAC=$<BOOL:${SCOPE_DEMO_DAC}>)
 include(cmake/freertos.cmake)
 target_compile_options(oscilloscope PRIVATE -Wall -Wextra -Werror -Wshadow)
 target_link_options(oscilloscope PRIVATE
