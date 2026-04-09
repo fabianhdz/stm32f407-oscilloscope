@@ -1,0 +1,19 @@
+Reference,Quantity,Part,Specification,Notes
+U1,1,STM32F407 development board,512KB or more flash; exposed SWD/GPIO,Already owned; verify board schematic
+LCD1,1,ILI9341 TFT breakout,320x240; 4-wire SPI; 3.3V logic,2.4 or 2.8 inch; select a module with documented supply and backlight circuitry
+U2,1,MCP6022-I/P,PDIP-8 dual rail-to-rail op amp,3.3V supply; do not substitute an LM358
+R1,1,1k resistor,1 percent,Input series resistor
+R2,1,100 ohm resistor,1 percent,ADC drive isolation
+R3 R4,2,10k resistor,1 percent,Unused amplifier midpoint divider
+C1,1,2.2nF capacitor,C0G/NP0 preferred; 5 percent,Input low-pass filter
+C2,1,470pF capacitor,C0G/NP0 preferred; 5 percent,ADC charge reservoir
+C3 C5,2,100nF ceramic capacitor,X7R,Op amp decoupling and midpoint bypass
+C4,1,10uF capacitor,6.3V or greater,3.3V bulk bypass; observe polarity if electrolytic
+D1 D2,2,BAT85 Schottky diode,Through-hole,Input rail clamps; not an extended voltage rating
+SW1 SW2 SW3 SW4,4,Normally-open pushbutton,Connect GPIO to GND,Internal pullups; software debounce
+J1,1,Signal connector,Signal and ground,Header or BNC breakout; common ground
+DBG1,0 or 1,ST-Link SWD probe,Compatible with 3.3V target,Not needed if board has onboard ST-Link
+UART1,0 or 1,USB-UART adapter,3.3V TX/RX logic,Only RX from target and GND needed for diagnostics
+ASSY,1,Breadboard/perfboard and jumper set,Short analog and SPI wiring,Perfboard recommended for final input circuit
+TEST1,1,Multimeter,DC voltage measurement,For calibration and power checks
+TEST2,1,Independent signal generator,Adjustable DC offset and amplitude,Access or borrow for acceptance tests
