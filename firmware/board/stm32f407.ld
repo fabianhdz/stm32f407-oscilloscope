@@ -43,6 +43,8 @@ SECTIONS
   . = ALIGN(8);
   end = .; _end = .;
   __ram_used_end__ = .;
+  /* CPU-only FFT workspace: initialized explicitly by spectrum_init/process. */
+  .ccm (NOLOAD) : { . = ALIGN(8); *(.ccm*) . = ALIGN(8); } > CCM
   /DISCARD/ : { *(.note.GNU-stack) }
 }
 ASSERT(__ram_used_end__ <= _estack - 4096, "SRAM exceeds budget: reserve 4KB for MSP")

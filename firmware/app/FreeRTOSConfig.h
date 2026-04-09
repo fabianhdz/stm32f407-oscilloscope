@@ -34,6 +34,7 @@ void board_fatal(const char *reason);
 #define INCLUDE_xTaskDelayUntil 1
 #define INCLUDE_uxTaskGetStackHighWaterMark 1
 #define INCLUDE_xTaskGetSchedulerState 1
+#define INCLUDE_xTaskGetCurrentTaskHandle 1
 #define vPortSVCHandler SVC_Handler
 #define xPortPendSVHandler PendSV_Handler
 #define xPortSysTickHandler SysTick_Handler

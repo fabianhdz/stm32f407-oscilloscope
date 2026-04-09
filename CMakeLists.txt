@@ -14,6 +14,7 @@ set(CORE_SOURCES firmware/app/settings.c firmware/app/mailbox.c firmware/acquisi
 add_library(scope_core STATIC ${CORE_SOURCES})
 target_include_directories(scope_core PUBLIC firmware)
 target_compile_options(scope_core PRIVATE -Wall -Wextra -Werror -Wshadow -Wstrict-prototypes)
+target_compile_options(scope_core PRIVATE -O2)
 include(cmake/dsp.cmake)
 if(SCOPE_FIRMWARE)
   include(cmake/firmware.cmake)
