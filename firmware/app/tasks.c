@@ -143,12 +143,12 @@ static void diagnostics(void)
     char line[512];
     sampler_stats_t a=sampler_stats();
     snprintf(line,sizeof line,
-        "STAT ms=%lu blocks=%lu lost=%lu ovr=%lu dmaerr=%lu late=%lu restarts=%lu "
+        "STAT ms=%lu blocks=%lu lost=%lu ovr=%lu dmaerr=%lu late=%lu restarts=%lu nominal_rate=%lu "
         "capture=%lu fft=%lu display=%lu acq_us=%lu fft_us=%lu draw_us=%lu "
         "stack=%lu,%lu,%lu,%lu lcd_err=%lu log_drop=%lu\r\n",
         (unsigned long)HAL_GetTick(),(unsigned long)a.blocks,(unsigned long)a.dropped,
         (unsigned long)a.adc_overruns,(unsigned long)a.dma_errors,(unsigned long)a.late_irqs,
-        (unsigned long)a.restarts,(unsigned long)scope_runtime.captures,
+        (unsigned long)a.restarts,(unsigned long)a.nominal_rate,(unsigned long)scope_runtime.captures,
         (unsigned long)scope_runtime.processed,(unsigned long)scope_runtime.displayed,
         (unsigned long)(scope_runtime.acquisition_cycles_max/(BOARD_CPU_HZ/1000000u)),
         (unsigned long)(scope_runtime.dsp_cycles_max/(BOARD_CPU_HZ/1000000u)),

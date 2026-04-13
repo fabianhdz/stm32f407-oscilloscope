@@ -23,6 +23,7 @@ void sampler_init(void)
 void sampler_stop(void)
 {
     TIM2->CR1=0;
+    stats.nominal_rate=0;
     ADC1->CR1=0;
     ADC1->CR2=0;
     DMA2_Stream0->CR &= ~DMA_SxCR_EN;
@@ -42,6 +43,7 @@ float sampler_start(uint32_t requested_hz)
     taskEXIT_CRITICAL();
     uint32_t divisor=(BOARD_APB1_TIMER_HZ+requested_hz/2u)/requested_hz;
     float actual=(float)BOARD_APB1_TIMER_HZ/(float)divisor;
+    stats.nominal_rate=(uint32_t)actual;
     expected_cycles=(uint32_t)(((uint64_t)BOARD_CPU_HZ*SCOPE_BLOCK_SAMPLES*divisor)/BOARD_APB1_TIMER_HZ);
     /* Generate update while ADC external triggering is disabled. */
     TIM2->CR2=0; TIM2->PSC=0; TIM2->ARR=divisor-1; TIM2->CNT=0;
