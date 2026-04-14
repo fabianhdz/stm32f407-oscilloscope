@@ -15,3 +15,5 @@ by the project repository; their original sources and licenses remain intact.
 
 See each checkout's LICENSE file for controlling terms. No DLO source code is
 copied. These are deliberately fixed releases, not a claim to track latest.
+Unmodified license texts for the pinned components are also retained in
+licenses/ and included with CI firmware artifacts.
