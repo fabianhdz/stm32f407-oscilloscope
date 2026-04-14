@@ -1,0 +1,37 @@
+name: Build and test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build
+      - name: Fetch immutable upstream dependencies
+        run: python3 tools/bootstrap.py
+      - name: Host tests with address and undefined-behavior sanitizers
+        run: |
+          cmake --preset host-sanitize
+          cmake --build --preset host-sanitize
+          ctest --preset host-sanitize
+      - name: Firmware Debug
+        run: |
+          cmake --preset debug -DSCOPE_DEMO_DAC=OFF
+          cmake --build --preset debug
+      - name: Firmware Release with DAC demo
+        run: |
+          cmake --preset release -DSCOPE_DEMO_DAC=ON
+          cmake --build --preset release
+      - name: Preserve reviewable firmware artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: stm32f407-firmware
+          path: |
+            build/debug/oscilloscope.*
+            build/release/oscilloscope.*
