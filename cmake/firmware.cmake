@@ -27,6 +27,7 @@ add_executable(oscilloscope
   firmware/drivers/tft_bus.c
   firmware/drivers/demo_dac.c
   firmware/board/clock.c firmware/board/pins.c firmware/board/fault.c
+  firmware/board/syscalls.c
   ${DEPS}/cmsis_device/Source/Templates/system_stm32f4xx.c
   ${DEPS}/cmsis_device/Source/Templates/gcc/startup_stm32f407xx.s)
 target_link_libraries(oscilloscope PRIVATE scope_core stm32_hal m)

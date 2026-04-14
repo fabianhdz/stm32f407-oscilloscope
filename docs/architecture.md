@@ -33,6 +33,9 @@ Acquisition scans every delivered sample. DSP runs at a bounded cadence
 keeps its last immutable result while plotting and transfers only dirty tiles.
 Button polling is periodic at 5ms with four stable polls before a press event.
 All tasks, queues, DMA buffers, FFT storage, and frame slots are static.
+Newlib's internal formatting allocation is confined to a separate 2KB arena;
+allocation beyond it fails. Only the display task uses stdio. The debugger can
+inspect scope_libc_heap_used; the default unbounded nosys heap is overridden.
 
 ## Time, interrupts, and memory
 HSI 16MHz → PLL M=16, N=320, P=2 → 160MHz core. APB1 is 40MHz
