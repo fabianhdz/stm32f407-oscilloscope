@@ -20,11 +20,11 @@ int main(int argc,char **argv)
     scope_settings_t settings=scope_default_settings();
     scope_calibration_t calibration=scope_default_calibration();
     settings.timebase=5;
-    if(argc==3) settings.view=VIEW_SPECTRUM;
+    if(argc==3) { settings.view=VIEW_SPECTRUM; settings.timebase=9; }
     result.capture.valid=true; result.capture.triggered=true;
-    result.capture.sample_rate_hz=200000; result.capture.trigger_index=512;
+    result.capture.sample_rate_hz=(float)scope_requested_rate(&settings); result.capture.trigger_index=512;
     for(unsigned i=0;i<SCOPE_SAMPLES;++i)
-        result.capture.samples[i]=(uint16_t)lroundf(2048+1200*sinf(6.283185307179586f*((float)i-512)/200));
+        result.capture.samples[i]=(uint16_t)lroundf(2048+1200*sinf(6.283185307179586f*((float)i-512)*1000/result.capture.sample_rate_hz));
     if(!spectrum_init(&spectrum)) return 1;
     spectrum_process(&spectrum,&result,&calibration);
     if(!renderer_draw(&renderer,&result,&settings,FIELD_TIME,&calibration,sink,NULL)) return 1;
