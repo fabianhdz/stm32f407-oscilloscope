@@ -59,6 +59,8 @@ static bool pixels(const uint16_t *buffer,size_t n,void *ctx)
     uint32_t start=HAL_GetTick();
     while(DMA2_Stream3->CR&DMA_SxCR_EN)
         if(HAL_GetTick()-start>20) board_fatal("TFT DMA stop");
+    DMA2->LIFCR=DMA_LIFCR_CFEIF3|DMA_LIFCR_CDMEIF3|DMA_LIFCR_CTEIF3|DMA_LIFCR_CHTIF3|DMA_LIFCR_CTCIF3;
+    NVIC_ClearPendingIRQ(DMA2_Stream3_IRQn);
     /* DMA TC precedes the final SPI shift. Keep CS and buffer stable until BSY clears. */
     if(!wait_idle()) ok=false;
     select_lcd(false,true);
@@ -71,6 +73,7 @@ static void delay(uint32_t ms,void *ctx) { (void)ctx; vTaskDelay(pdMS_TO_TICKS(m
 ili9341_t tft_bus_init(void)
 {
     __HAL_RCC_SPI1_CLK_ENABLE(); __HAL_RCC_DMA2_CLK_ENABLE();
+    __HAL_RCC_SPI1_FORCE_RESET(); __HAL_RCC_SPI1_RELEASE_RESET();
     /* APB2=80MHz / 8 = 10MHz. One-line output avoids an unused receive overrun. */
     SPI1->CR1=SPI_CR1_MSTR|SPI_CR1_SSM|SPI_CR1_SSI|SPI_CR1_BR_1|
               SPI_CR1_BIDIMODE|SPI_CR1_BIDIOE|SPI_CR1_SPE;
@@ -82,6 +85,7 @@ void DMA2_Stream3_IRQHandler(void)
 {
     uint32_t flags=DMA2->LISR;
     DMA2->LIFCR=DMA_LIFCR_CFEIF3|DMA_LIFCR_CDMEIF3|DMA_LIFCR_CTEIF3|DMA_LIFCR_CHTIF3|DMA_LIFCR_CTCIF3;
+    if(!(flags&(DMA_LISR_TCIF3|DMA_LISR_TEIF3|DMA_LISR_DMEIF3|DMA_LISR_FEIF3))) return;
     if(flags&(DMA_LISR_TEIF3|DMA_LISR_DMEIF3|DMA_LISR_FEIF3)) dma_error=true;
     SPI1->CR2 &= ~SPI_CR2_TXDMAEN;
     BaseType_t wake=pdFALSE;

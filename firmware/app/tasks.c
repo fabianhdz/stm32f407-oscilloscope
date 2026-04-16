@@ -189,6 +189,7 @@ static void display_task(void *arg)
         if(lcd_ready) lcd_ready=renderer_draw(&renderer,shown,&current,field,&calibration,tile_sink,&lcd);
         else if(HAL_GetTick()-last_retry>=1000) {
             last_retry=HAL_GetTick();
+            lcd=tft_bus_init();
             lcd_ready=ili9341_init(&lcd); renderer.initialized=false;
         }
         uint32_t cycles=DWT->CYCCNT-begin;
