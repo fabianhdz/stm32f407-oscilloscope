@@ -4,7 +4,7 @@
 <text x="36" y="40" class="title">STM32F407 oscilloscope — single-channel analog front end</text>
 <text x="36" y="67">DC input 0–3.3 V · MCP6022-I/P · common signal ground · not hardware-validated</text>
 <g class="wire">
-<path d="M45 205H115 M175 205H390 M230 205V130 M230 100V90H285 M185 205V265 M185 295V350H215 M280 205V285 M280 297V350H310"/>
+<path d="M45 205H115 M175 205H390 M230 205V130 M230 110V90H285 M185 205V275 M185 295V350H215 M280 205V285 M280 297V350H310"/>
 <path d="M500 225H575 M635 225H850 M535 225V385H350V245H390 M725 225V285 M725 297V350H755"/>
 </g>
 <rect x="115" y="195" width="60" height="20" class="part"/>
