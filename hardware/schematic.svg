@@ -345,7 +345,6 @@
 <text x="65" y="1135" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">U1 IS A POWERED DEVELOPMENT BOARD WITH ITS OWN VDDA / VREF CIRCUIT.</text>
 <text x="65" y="1165" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">INPUT RANGE: 0..3.3 V. CLAMPS DO NOT EXTEND THE VOLTAGE RATING.</text>
 <text x="65" y="1195" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">PB12..PB15: INTERNAL PULLUPS. C3 CLOSE TO U2 SUPPLY PINS.</text>
-<text x="65" y="1225" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">CIRCUIT AND BOARD CONNECTIONS REQUIRE HARDWARE VALIDATION.</text>
 <polyline points="1050,1100 1770,1100 1770,1243 1050,1243 1050,1100" stroke-width="1"/>
 <polyline points="1050,1150 1770,1150" stroke-width="1"/>
 <polyline points="1050,1200 1770,1200" stroke-width="1"/>
