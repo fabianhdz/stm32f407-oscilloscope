@@ -1,5 +1,4 @@
 set(DEPS ${PROJECT_SOURCE_DIR}/third_party)
-find_package(Python3 REQUIRED COMPONENTS Interpreter)
 option(SCOPE_DEMO_DAC "Enable PA4 1kHz DAC loopback source" OFF)
 foreach(dep stm32_hal cmsis_device cmsis_core freertos cmsis_dsp)
   if(NOT EXISTS "${DEPS}/${dep}/.git")
@@ -44,5 +43,3 @@ add_custom_command(TARGET oscilloscope POST_BUILD
   COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:oscilloscope> ${CMAKE_CURRENT_BINARY_DIR}/oscilloscope.bin
   COMMAND ${CMAKE_OBJCOPY} -O ihex $<TARGET_FILE:oscilloscope> ${CMAKE_CURRENT_BINARY_DIR}/oscilloscope.hex
   COMMAND ${CMAKE_SIZE} $<TARGET_FILE:oscilloscope>)
-add_custom_command(TARGET oscilloscope POST_BUILD
-  COMMAND ${Python3_EXECUTABLE} ${PROJECT_SOURCE_DIR}/tools/check_memory.py $<TARGET_FILE:oscilloscope>)

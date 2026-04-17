@@ -13,7 +13,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends gcc-arm-none-eabi libnewlib-arm-none-eabi cmake ninja-build
-      - name: Fetch immutable upstream dependencies
+      - name: Fetch dependencies
         run: python3 tools/bootstrap.py
       - name: Host tests with address and undefined-behavior sanitizers
         run: |
@@ -28,7 +28,7 @@ jobs:
         run: |
           cmake --preset release -DSCOPE_DEMO_DAC=ON
           cmake --build --preset release
-      - name: Preserve reviewable firmware artifacts
+      - name: Upload firmware
         uses: actions/upload-artifact@v4
         with:
           name: stm32f407-firmware
