@@ -1,48 +1,357 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="720" viewBox="0 0 1100 720">
-<rect width="1100" height="720" fill="white"/>
-<style>text{font:16px sans-serif;fill:#152030}.title{font-size:25px;font-weight:bold}.small{font-size:13px}.wire{fill:none;stroke:#20394a;stroke-width:2}.part{fill:white;stroke:#20394a;stroke-width:2}</style>
-<text x="36" y="40" class="title">STM32F407 oscilloscope — single-channel analog front end</text>
-<text x="36" y="67">DC input 0–3.3 V · MCP6022-I/P · common signal ground · not hardware-validated</text>
-<g class="wire">
-<path d="M45 205H115 M175 205H390 M230 205V130 M230 110V90H285 M185 205V275 M185 295V350H215 M280 205V285 M280 297V350H310"/>
-<path d="M500 225H575 M635 225H850 M535 225V385H350V245H390 M725 225V285 M725 297V350H755"/>
-</g>
-<rect x="115" y="195" width="60" height="20" class="part"/>
-<text x="108" y="174">R1 1k</text><text x="35" y="232">J1 SIG</text>
-<circle cx="230" cy="205" r="4" fill="#20394a"/><circle cx="280" cy="205" r="4" fill="#20394a"/>
-<circle cx="185" cy="205" r="4" fill="#20394a"/>
-<path d="M220 130L240 130L230 110Z M218 110H242 M218 110V105 M242 110V115" class="part"/>
-<text x="250" y="117">D1 BAT85</text><text x="288" y="95">3.3 V</text>
-<text x="250" y="140" class="small">cathode toward 3.3 V</text>
-<path d="M175 295L195 295L185 275Z M173 275H197 M173 275V270 M197 275V280" class="part"/>
-<text x="40" y="285">D2 BAT85</text><text x="40" y="309" class="small">cathode toward FILTER</text>
-<path d="M268 285H292 M268 297H292 M713 285H737 M713 297H737" class="wire"/>
-<text x="295" y="283">C1</text><text x="295" y="305">2.2nF</text>
-<text x="740" y="283">C2</text><text x="740" y="305">470pF</text>
-<text x="180" y="373" class="small">GND</text><text x="275" y="373" class="small">GND</text><text x="720" y="373" class="small">GND</text>
-<polygon points="390,170 390,280 500,225" class="part"/>
-<text x="394" y="210">+</text><text x="394" y="251">−</text>
-<text x="359" y="192">3</text><text x="359" y="265">2</text><text x="510" y="214">1</text>
-<text x="404" y="148">U2A MCP6022</text>
-<circle cx="535" cy="225" r="4" fill="#20394a"/>
-<rect x="575" y="215" width="60" height="20" class="part"/>
-<text x="570" y="194">R2 100Ω</text>
-<circle cx="725" cy="225" r="4" fill="#20394a"/>
-<text x="860" y="229">PA1 / ADC1_IN1</text>
-<text x="557" y="407" class="small">BUFFER feedback: pin 1 directly to pin 2</text>
-<path d="M36 430H1064" stroke="#ccd4d9"/>
-<text x="36" y="464">Supply and unused amplifier</text>
-<text x="36" y="491">U2 pin 8 → 3.3 V; pin 4 → GND</text>
-<text x="36" y="517">C3 100nF directly across pins 8/4</text>
-<text x="36" y="543">C4 10µF across 3.3 V/GND</text>
-<text x="36" y="569">J1 GND → board analog ground</text>
-<g class="wire"><path d="M530 475V490 M530 530V550 M530 590V610 M530 540H665 M665 540V555 M665 565V610"/></g>
-<rect x="520" y="490" width="20" height="40" class="part"/><rect x="520" y="550" width="20" height="40" class="part"/>
-<path d="M653 555H677 M653 565H677" class="wire"/>
-<text x="550" y="515">R3 10k</text><text x="550" y="580">R4 10k</text>
-<text x="510" y="469">3.3 V</text><text x="514" y="632">GND</text>
-<text x="685" y="558">C5 100nF to GND</text><text x="685" y="538">MID → U2 pin 5 (+B)</text>
-<text x="730" y="596">U2 pin 6 (−B) → pin 7 (OUT B)</text>
-<text x="36" y="665" class="small">D1/D2 are rail clamps only. They do not expand the allowed input range. Power the board before applying a signal.</text>
-<text x="36" y="689" class="small">R1/C1 nominal pole: 72.3kHz. This is not a steep anti-alias filter. See analog-design.md and wiring.md.</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1273" viewBox="0 0 1800 1273">
+<title>STM32F407 single-channel oscilloscope schematic</title>
+<desc>Buffered analog input, STM32F407 board ports, SPI TFT, four buttons, SWD, UART, DAC, and supply wiring. Port names are not physical header numbers.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<g stroke="black" fill="none" stroke-linejoin="round" stroke-linecap="round">
+<polyline points="10,10 1790,10 1790,1263 10,1263 10,10" stroke-width="1"/>
+<polyline points="30,30 1770,30 1770,1243 30,1243 30,30" stroke-width="1"/>
+<text x="247" y="24" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">A</text>
+<text x="247" y="1264" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">A</text>
+<text x="682" y="24" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">B</text>
+<text x="682" y="1264" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">B</text>
+<text x="1117" y="24" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">C</text>
+<text x="1117" y="1264" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">C</text>
+<text x="1552" y="24" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">D</text>
+<text x="1552" y="1264" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">D</text>
+<text x="20" y="235" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">1</text>
+<text x="1780" y="235" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">1</text>
+<text x="20" y="635" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">2</text>
+<text x="1780" y="635" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">2</text>
+<text x="20" y="1035" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">3</text>
+<text x="1780" y="1035" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">3</text>
+<text x="70" y="135" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="bold">ANALOG INPUT</text>
+<text x="70" y="165" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">CH1  0..3.3 V DC</text>
+<polyline points="55,205 90,205 90,275 55,275 55,205" stroke-width="2"/>
+<text x="55" y="194" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="bold">J1</text>
+<text x="64" y="230" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="13" text-anchor="start" font-weight="normal">1</text>
+<text x="64" y="260" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="13" text-anchor="start" font-weight="normal">2</text>
+<polyline points="90,225 150,225" stroke-width="2"/>
+<polyline points="90,255 110,255 110,285" stroke-width="2"/>
+<polyline points="110,285 110,297" stroke-width="2"/>
+<polyline points="98,297 122,297" stroke-width="2"/>
+<polyline points="102,303 118,303" stroke-width="2"/>
+<polyline points="106,309 114,309" stroke-width="2"/>
+<polyline points="150,217 210,217 210,233 150,233 150,217" stroke-width="2"/>
+<text x="180" y="190" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="normal">R1</text>
+<text x="180" y="211" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="normal">1k</text>
+<polyline points="210,225 430,225" stroke-width="2"/>
+<polyline points="250,225 250,294" stroke-width="2"/>
+<polyline points="236,294 264,294" stroke-width="2"/>
+<polyline points="236,306 264,306" stroke-width="2"/>
+<polyline points="250,306 250,375" stroke-width="2"/>
+<text x="228" y="290" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">C1</text>
+<text x="228" y="313" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">2.2nF</text>
+<polyline points="250,375 250,387" stroke-width="2"/>
+<polyline points="238,387 262,387" stroke-width="2"/>
+<polyline points="242,393 258,393" stroke-width="2"/>
+<polyline points="246,399 254,399" stroke-width="2"/>
+<polyline points="290,225 290,145" stroke-width="2"/>
+<polyline points="279,145 301,145 290,120 279,145" stroke-width="2"/>
+<polyline points="277,114 277,120 303,120 303,126" stroke-width="2"/>
+<text x="315" y="110" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">D1</text>
+<text x="315" y="133" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">BAT85</text>
+<polyline points="290,120 290,85" stroke-width="2"/>
+<polyline points="290,85 290,69 283,77" stroke-width="2"/>
+<polyline points="290,69 297,77" stroke-width="2"/>
+<text x="290" y="60" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<polyline points="350,225 350,350" stroke-width="2"/>
+<polyline points="339,375 361,375 350,350 339,375" stroke-width="2"/>
+<polyline points="337,344 337,350 363,350 363,356" stroke-width="2"/>
+<text x="305" y="410" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">D2</text>
+<text x="305" y="433" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">BAT85</text>
+<polyline points="350,375 350,455" stroke-width="2"/>
+<polyline points="350,455 350,467" stroke-width="2"/>
+<polyline points="338,467 362,467" stroke-width="2"/>
+<polyline points="342,473 358,473" stroke-width="2"/>
+<polyline points="346,479 354,479" stroke-width="2"/>
+<circle cx="250" cy="225" r="4" stroke-width="2" fill="black"/>
+<circle cx="290" cy="225" r="4" stroke-width="2" fill="black"/>
+<circle cx="350" cy="225" r="4" stroke-width="2" fill="black"/>
+<polyline points="430,195 430,295 520,245 430,195" stroke-width="2"/>
+<text x="438" y="231" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="normal">+</text>
+<text x="438" y="271" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="normal">-</text>
+<text x="417" y="214" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">3</text>
+<text x="417" y="255" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">2</text>
+<text x="529" y="234" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">1</text>
+<text x="465" y="167" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="normal">U2A</text>
+<text x="465" y="188" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">MCP6022</text>
+<polyline points="520,245 580,245" stroke-width="2"/>
+<polyline points="550,245 550,330 390,330 390,265 430,265" stroke-width="2"/>
+<circle cx="550" cy="245" r="4" stroke-width="2" fill="black"/>
+<polyline points="580,237 640,237 640,253 580,253 580,237" stroke-width="2"/>
+<text x="610" y="210" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="normal">R2</text>
+<text x="610" y="231" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="normal">100R</text>
+<polyline points="640,245 800,245" stroke-width="2"/>
+<polyline points="700,245 700,284" stroke-width="2"/>
+<polyline points="686,284 714,284" stroke-width="2"/>
+<polyline points="686,296 714,296" stroke-width="2"/>
+<polyline points="700,296 700,335" stroke-width="2"/>
+<text x="722" y="280" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">C2</text>
+<text x="722" y="303" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">470pF</text>
+<polyline points="700,335 700,347" stroke-width="2"/>
+<polyline points="688,347 712,347" stroke-width="2"/>
+<polyline points="692,353 708,353" stroke-width="2"/>
+<polyline points="696,359 704,359" stroke-width="2"/>
+<circle cx="700" cy="245" r="4" stroke-width="2" fill="black"/>
+<text x="725" y="230" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">ADC</text>
+<text x="965" y="112" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="22" text-anchor="middle" font-weight="bold">U1  STM32F407 BOARD</text>
+<text x="965" y="138" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">PORT NAMES</text>
+<polyline points="800,155 1130,155 1130,800 800,800 800,155" stroke-width="2"/>
+<text x="812" y="250" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PA1 / ADC1_IN1</text>
+<text x="812" y="415" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PB12</text>
+<text x="812" y="475" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PB13</text>
+<text x="812" y="535" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PB14</text>
+<text x="812" y="595" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PB15</text>
+<text x="812" y="715" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PA13 / SWDIO</text>
+<text x="812" y="750" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">PA14 / SWCLK</text>
+<text x="1118" y="205" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PA5</text>
+<text x="1118" y="255" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PA7</text>
+<text x="1118" y="305" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PB6</text>
+<text x="1118" y="355" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PB7</text>
+<text x="1118" y="405" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PB8</text>
+<text x="1118" y="510" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PA2</text>
+<text x="1118" y="555" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PA3</text>
+<text x="1118" y="630" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PA4</text>
+<text x="1118" y="695" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">PE3</text>
+<text x="965" y="320" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="22" text-anchor="middle" font-weight="normal">CORTEX-M4F</text>
+<text x="965" y="357" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="middle" font-weight="normal">ADC + DMA</text>
+<text x="965" y="392" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="middle" font-weight="normal">FreeRTOS</text>
+<text x="965" y="435" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">3.3 V LOGIC</text>
+<text x="965" y="782" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="normal">3V3       GND</text>
+<polyline points="905,800 905,870 865,870" stroke-width="2"/>
+<polyline points="865,870 865,854 858,862" stroke-width="2"/>
+<polyline points="865,854 872,862" stroke-width="2"/>
+<text x="865" y="845" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<polyline points="1025,800 1025,835" stroke-width="2"/>
+<polyline points="1025,835 1025,847" stroke-width="2"/>
+<polyline points="1013,847 1037,847" stroke-width="2"/>
+<polyline points="1017,853 1033,853" stroke-width="2"/>
+<polyline points="1021,859 1029,859" stroke-width="2"/>
+<text x="500" y="372" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="bold">BUTTONS</text>
+<text x="665" y="389" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">SW1 SELECT</text>
+<polyline points="610,410 647,410" stroke-width="2"/>
+<circle cx="650" cy="410" r="3" stroke-width="2" fill="white"/>
+<circle cx="680" cy="410" r="3" stroke-width="2" fill="white"/>
+<polyline points="650,410 676,398" stroke-width="2"/>
+<polyline points="683,410 800,410" stroke-width="2"/>
+<circle cx="610" cy="410" r="4" stroke-width="2" fill="black"/>
+<text x="665" y="449" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">SW2 +</text>
+<polyline points="610,470 647,470" stroke-width="2"/>
+<circle cx="650" cy="470" r="3" stroke-width="2" fill="white"/>
+<circle cx="680" cy="470" r="3" stroke-width="2" fill="white"/>
+<polyline points="650,470 676,458" stroke-width="2"/>
+<polyline points="683,470 800,470" stroke-width="2"/>
+<circle cx="610" cy="470" r="4" stroke-width="2" fill="black"/>
+<text x="665" y="509" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">SW3 -</text>
+<polyline points="610,530 647,530" stroke-width="2"/>
+<circle cx="650" cy="530" r="3" stroke-width="2" fill="white"/>
+<circle cx="680" cy="530" r="3" stroke-width="2" fill="white"/>
+<polyline points="650,530 676,518" stroke-width="2"/>
+<polyline points="683,530 800,530" stroke-width="2"/>
+<circle cx="610" cy="530" r="4" stroke-width="2" fill="black"/>
+<text x="665" y="569" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">SW4 RUN/STOP</text>
+<polyline points="610,590 647,590" stroke-width="2"/>
+<circle cx="650" cy="590" r="3" stroke-width="2" fill="white"/>
+<circle cx="680" cy="590" r="3" stroke-width="2" fill="white"/>
+<polyline points="650,590 676,578" stroke-width="2"/>
+<polyline points="683,590 800,590" stroke-width="2"/>
+<circle cx="610" cy="590" r="4" stroke-width="2" fill="black"/>
+<polyline points="610,410 610,615" stroke-width="2"/>
+<polyline points="610,615 610,627" stroke-width="2"/>
+<polyline points="598,627 622,627" stroke-width="2"/>
+<polyline points="602,633 618,633" stroke-width="2"/>
+<polyline points="606,639 614,639" stroke-width="2"/>
+<text x="1535" y="112" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="21" text-anchor="middle" font-weight="bold">LCD1  ILI9341 SPI TFT</text>
+<polyline points="1400,155 1700,155 1700,440 1400,440 1400,155" stroke-width="2"/>
+<polyline points="1130,200 1400,200" stroke-width="2"/>
+<text x="1192" y="191" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">SPI1_SCK</text>
+<text x="1412" y="205" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">SCK</text>
+<polyline points="1130,250 1400,250" stroke-width="2"/>
+<text x="1192" y="241" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">SPI1_MOSI</text>
+<text x="1412" y="255" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">SDI / MOSI</text>
+<polyline points="1130,300 1400,300" stroke-width="2"/>
+<text x="1192" y="291" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">TFT_CS</text>
+<text x="1412" y="305" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">CS</text>
+<polyline points="1130,350 1400,350" stroke-width="2"/>
+<text x="1192" y="341" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">TFT_DC</text>
+<text x="1412" y="355" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">D/C</text>
+<polyline points="1130,400 1400,400" stroke-width="2"/>
+<text x="1192" y="391" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">TFT_RESET</text>
+<text x="1412" y="405" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">RESET</text>
+<text x="1535" y="475" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">320 x 240 / 3.3 V LOGIC</text>
+<text x="1688" y="205" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="end" font-weight="normal">VCC</text>
+<polyline points="1700,200 1766,200" stroke-width="2"/>
+<text x="1766" y="188" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="end" font-weight="normal">LCD_VCC</text>
+<text x="1688" y="405" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="end" font-weight="normal">BL</text>
+<polyline points="1700,400 1766,400" stroke-width="2"/>
+<text x="1766" y="388" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="end" font-weight="normal">LCD_BL</text>
+<text x="1688" y="305" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="end" font-weight="normal">GND</text>
+<polyline points="1700,300 1740,300 1740,330" stroke-width="2"/>
+<polyline points="1740,330 1740,342" stroke-width="2"/>
+<polyline points="1728,342 1752,342" stroke-width="2"/>
+<polyline points="1732,348 1748,348" stroke-width="2"/>
+<polyline points="1736,354 1744,354" stroke-width="2"/>
+<text x="1535" y="429" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="13" text-anchor="middle" font-weight="normal">TOUCH / SD / SDO: NC</text>
+<text x="635" y="654" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="bold">J2 SWD</text>
+<polyline points="600,665 670,665 670,800 600,800 600,665" stroke-width="2"/>
+<text x="610" y="715" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">1</text>
+<polyline points="670,710 800,710" stroke-width="2"/>
+<text x="690" y="702" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">SWDIO</text>
+<text x="610" y="750" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">2</text>
+<polyline points="670,745 800,745" stroke-width="2"/>
+<text x="690" y="737" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">SWCLK</text>
+<polyline points="600,680 560,680" stroke-width="2"/>
+<polyline points="560,680 560,664 553,672" stroke-width="2"/>
+<polyline points="560,664 567,672" stroke-width="2"/>
+<text x="560" y="655" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<text x="609" y="685" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">4</text>
+<text x="609" y="785" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">3</text>
+<polyline points="600,780 570,780 570,800" stroke-width="2"/>
+<polyline points="570,800 570,812" stroke-width="2"/>
+<polyline points="558,812 582,812" stroke-width="2"/>
+<polyline points="562,818 578,818" stroke-width="2"/>
+<polyline points="566,824 574,824" stroke-width="2"/>
+<text x="1485" y="502" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="bold">J3 UART</text>
+<polyline points="1450,515 1520,515 1520,585 1450,585 1450,515" stroke-width="2"/>
+<polyline points="1130,505 1380,505 1380,535 1450,535" stroke-width="2"/>
+<text x="1200" y="495" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">USART2_TX</text>
+<text x="1460" y="540" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">1</text>
+<polyline points="1450,565 1400,565 1400,595" stroke-width="2"/>
+<polyline points="1400,595 1400,607" stroke-width="2"/>
+<polyline points="1388,607 1412,607" stroke-width="2"/>
+<polyline points="1392,613 1408,613" stroke-width="2"/>
+<polyline points="1396,619 1404,619" stroke-width="2"/>
+<text x="1460" y="570" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">2</text>
+<text x="1540" y="545" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">ADAPTER RX</text>
+<text x="1540" y="570" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">GND</text>
+<polyline points="1130,550 1180,550" stroke-width="2"/>
+<polyline points="1174,544 1186,556" stroke-width="2"/>
+<polyline points="1174,556 1186,544" stroke-width="2"/>
+<text x="1200" y="555" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">RESERVED / NC</text>
+<text x="1485" y="637" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="bold">J4 TEST</text>
+<polyline points="1450,650 1520,650 1520,720 1450,720 1450,650" stroke-width="2"/>
+<polyline points="1130,625 1360,625 1360,670 1450,670" stroke-width="2"/>
+<text x="1190" y="615" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">DAC1_OUT1</text>
+<text x="1460" y="675" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">1</text>
+<polyline points="1450,700 1400,700 1400,730" stroke-width="2"/>
+<polyline points="1400,730 1400,742" stroke-width="2"/>
+<polyline points="1388,742 1412,742" stroke-width="2"/>
+<polyline points="1392,748 1408,748" stroke-width="2"/>
+<polyline points="1396,754 1404,754" stroke-width="2"/>
+<text x="1460" y="705" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">2</text>
+<text x="1540" y="675" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">OPTIONAL 1 kHz</text>
+<text x="1540" y="700" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">GND</text>
+<polyline points="1130,690 1190,690" stroke-width="2"/>
+<text x="1200" y="695" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">DISCOVERY ACCEL CS</text>
+<text x="1510" y="820" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="bold">J5 LCD POWER</text>
+<polyline points="1450,835 1570,835 1570,965 1450,965 1450,835" stroke-width="2"/>
+<polyline points="1340,860 1450,860" stroke-width="2"/>
+<text x="1330" y="865" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="end" font-weight="normal">LCD_VCC</text>
+<text x="1463" y="865" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">1</text>
+<polyline points="1340,900 1450,900" stroke-width="2"/>
+<text x="1330" y="905" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="end" font-weight="normal">LCD_BL</text>
+<text x="1463" y="905" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">2</text>
+<text x="1463" y="945" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="start" font-weight="normal">3</text>
+<polyline points="1450,940 1390,940 1390,975" stroke-width="2"/>
+<polyline points="1390,975 1390,987" stroke-width="2"/>
+<polyline points="1378,987 1402,987" stroke-width="2"/>
+<polyline points="1382,993 1398,993" stroke-width="2"/>
+<polyline points="1386,999 1394,999" stroke-width="2"/>
+<text x="1590" y="870" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">MODULE SUPPLY</text>
+<text x="1590" y="910" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">BACKLIGHT SUPPLY</text>
+<text x="1190" y="1030" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">VCC / backlight depend on the breakout.</text>
+<text x="1190" y="1055" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">LCD_BL: module-rated current limiting.</text>
+<text x="70" y="760" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="bold">OP-AMP SUPPLY / UNUSED CHANNEL</text>
+<polyline points="80,855 220,855 220,955 80,955 80,855" stroke-width="2"/>
+<text x="150" y="895" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="middle" font-weight="bold">U2C</text>
+<text x="150" y="922" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">MCP6022</text>
+<polyline points="150,855 150,815" stroke-width="2"/>
+<polyline points="150,815 150,799 143,807" stroke-width="2"/>
+<polyline points="150,799 157,807" stroke-width="2"/>
+<text x="150" y="790" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<text x="162" y="847" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">8</text>
+<polyline points="150,955 150,995" stroke-width="2"/>
+<polyline points="150,995 150,1007" stroke-width="2"/>
+<polyline points="138,1007 162,1007" stroke-width="2"/>
+<polyline points="142,1013 158,1013" stroke-width="2"/>
+<polyline points="146,1019 154,1019" stroke-width="2"/>
+<text x="162" y="980" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">4</text>
+<polyline points="260,835 260,819 253,827" stroke-width="2"/>
+<polyline points="260,819 267,827" stroke-width="2"/>
+<text x="260" y="810" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<polyline points="260,835 260,909" stroke-width="2"/>
+<polyline points="246,909 274,909" stroke-width="2"/>
+<polyline points="246,921 274,921" stroke-width="2"/>
+<polyline points="260,921 260,995" stroke-width="2"/>
+<text x="282" y="905" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">C3</text>
+<text x="282" y="928" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">100nF</text>
+<polyline points="260,995 260,1007" stroke-width="2"/>
+<polyline points="248,1007 272,1007" stroke-width="2"/>
+<polyline points="252,1013 268,1013" stroke-width="2"/>
+<polyline points="256,1019 264,1019" stroke-width="2"/>
+<polyline points="355,835 355,819 348,827" stroke-width="2"/>
+<polyline points="355,819 362,827" stroke-width="2"/>
+<text x="355" y="810" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<polyline points="355,835 355,909" stroke-width="2"/>
+<polyline points="341,909 369,909" stroke-width="2"/>
+<polyline points="341,921 369,921" stroke-width="2"/>
+<polyline points="355,921 355,995" stroke-width="2"/>
+<text x="377" y="905" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">C4</text>
+<text x="377" y="928" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">10uF</text>
+<polyline points="355,995 355,1007" stroke-width="2"/>
+<polyline points="343,1007 367,1007" stroke-width="2"/>
+<polyline points="347,1013 363,1013" stroke-width="2"/>
+<polyline points="351,1019 359,1019" stroke-width="2"/>
+<polyline points="490,810 490,794 483,802" stroke-width="2"/>
+<polyline points="490,794 497,802" stroke-width="2"/>
+<text x="490" y="785" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">+3V3</text>
+<polyline points="490,810 490,825" stroke-width="2"/>
+<polyline points="482,825 498,825 498,885 482,885 482,825" stroke-width="2"/>
+<text x="507" y="845" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">R3</text>
+<text x="507" y="867" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">10k</text>
+<polyline points="490,885 490,910" stroke-width="2"/>
+<polyline points="482,910 498,910 498,970 482,970 482,910" stroke-width="2"/>
+<text x="507" y="930" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">R4</text>
+<text x="507" y="952" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">10k</text>
+<polyline points="490,970 490,995" stroke-width="2"/>
+<polyline points="490,995 490,1007" stroke-width="2"/>
+<polyline points="478,1007 502,1007" stroke-width="2"/>
+<polyline points="482,1013 498,1013" stroke-width="2"/>
+<polyline points="486,1019 494,1019" stroke-width="2"/>
+<circle cx="490" cy="895" r="4" stroke-width="2" fill="black"/>
+<polyline points="490,895 425,895" stroke-width="2"/>
+<polyline points="425,895 425,1020" stroke-width="2"/>
+<polyline points="411,1020 439,1020" stroke-width="2"/>
+<polyline points="411,1032 439,1032" stroke-width="2"/>
+<polyline points="425,1032 425,1050" stroke-width="2"/>
+<text x="403" y="1016" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">C5</text>
+<text x="403" y="1039" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="end" font-weight="normal">100nF</text>
+<polyline points="425,1050 425,1062" stroke-width="2"/>
+<polyline points="413,1062 437,1062" stroke-width="2"/>
+<polyline points="417,1068 433,1068" stroke-width="2"/>
+<polyline points="421,1074 429,1074" stroke-width="2"/>
+<polyline points="630,845 630,945 720,895 630,845" stroke-width="2"/>
+<text x="638" y="881" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="normal">+</text>
+<text x="638" y="921" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="19" text-anchor="start" font-weight="normal">-</text>
+<text x="617" y="864" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">5</text>
+<text x="617" y="905" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">6</text>
+<text x="729" y="884" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="14" text-anchor="start" font-weight="normal">7</text>
+<text x="665" y="817" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="middle" font-weight="normal">U2B</text>
+<text x="665" y="838" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="16" text-anchor="middle" font-weight="normal">MCP6022</text>
+<polyline points="490,895 580,895 580,875 630,875" stroke-width="2"/>
+<polyline points="720,895 750,895 750,980 600,980 600,915 630,915" stroke-width="2"/>
+<text x="675" y="1025" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="middle" font-weight="normal">6 tied to 7</text>
+<text x="65" y="1105" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">PORT LABELS ARE MCU SIGNAL NAMES, NOT BOARD HEADER POSITIONS.</text>
+<text x="65" y="1135" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">U1 IS A POWERED DEVELOPMENT BOARD WITH ITS OWN VDDA / VREF CIRCUIT.</text>
+<text x="65" y="1165" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">INPUT RANGE: 0..3.3 V. CLAMPS DO NOT EXTEND THE VOLTAGE RATING.</text>
+<text x="65" y="1195" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">PB12..PB15: INTERNAL PULLUPS. C3 CLOSE TO U2 SUPPLY PINS.</text>
+<text x="65" y="1225" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="15" text-anchor="start" font-weight="normal">CIRCUIT AND BOARD CONNECTIONS REQUIRE HARDWARE VALIDATION.</text>
+<polyline points="1050,1100 1770,1100 1770,1243 1050,1243 1050,1100" stroke-width="1"/>
+<polyline points="1050,1150 1770,1150" stroke-width="1"/>
+<polyline points="1050,1200 1770,1200" stroke-width="1"/>
+<polyline points="1500,1200 1500,1243" stroke-width="1"/>
+<text x="1070" y="1133" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="22" text-anchor="start" font-weight="bold">STM32F407 DIGITAL OSCILLOSCOPE</text>
+<text x="1070" y="1180" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="18" text-anchor="start" font-weight="normal">SINGLE CHANNEL / DC INPUT / SPI TFT</text>
+<text x="1070" y="1228" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">Fabian Hernandez</text>
+<text x="1520" y="1228" fill="black" stroke="none" font-family="DejaVu Sans Mono,monospace" font-size="17" text-anchor="start" font-weight="normal">A3   SHEET 1 / 1</text>
+</g></svg>

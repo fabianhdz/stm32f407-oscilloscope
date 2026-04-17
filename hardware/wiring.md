@@ -47,7 +47,21 @@ chip-select handling. PA0 is avoided because it commonly connects to a button.
 | MID | R3 bottom, R4 top (both 10k), U2 pin 5 (+B), C5 (100nF) to GND |
 | UNUSED BUFFER | U2 pin 6 (-B) tied to pin 7 (OUT B) |
 
-See [schematic.svg](schematic.svg). Place C3 beside U2 pins 8/4.
+The complete circuit is available as a [vector schematic](schematic.svg) and
+[A3 landscape PDF](schematic.pdf). It includes the analog input, display,
+buttons, SWD, UART, optional DAC output, and op-amp supply connections.
+U1 represents a development board; its labels are MCU port names rather than
+physical package or header pin numbers. J2/J3/J4 are logical connector
+assignments, not a claim to match an existing board or ST-Link connector order.
+
+LCD_VCC and LCD_BL connect the TFT to the module supply/backlight connections
+shown at J5. Their voltage and current limiting depend on the selected breakout;
+they are not driven by MCU GPIO. The drawing shows only the used display pins.
+
+The drawing source is [draw_schematic.py](../tools/draw_schematic.py); running
+`python3 tools/draw_schematic.py` regenerates the SVG and vector PDF without
+extra packages. This is a wiring schematic, not an EDA netlist or PCB layout.
+Place C3 beside U2 pins 8/4.
 Input operation is limited to 0–3.3V with the board powered; clamp diodes do not
 make this a higher-voltage or negative-input instrument. Near-rail op-amp
 headroom is why accuracy acceptance uses 0.2–3.1V.
