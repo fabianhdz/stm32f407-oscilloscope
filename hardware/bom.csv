@@ -15,5 +15,3 @@ J1,1,Signal connector,Signal and ground,Header or BNC breakout; common ground
 DBG1,0 or 1,ST-Link SWD probe,Compatible with 3.3V target,Not needed if board has onboard ST-Link
 UART1,0 or 1,USB-UART adapter,3.3V TX/RX logic,Only RX from target and GND needed for diagnostics
 ASSY,1,Breadboard/perfboard and jumper set,Short analog and SPI wiring,Perfboard recommended for final input circuit
-TEST1,1,Multimeter,DC voltage measurement,For calibration and power checks
-TEST2,1,Independent signal generator,Adjustable DC offset and amplitude,Access or borrow for acceptance tests
