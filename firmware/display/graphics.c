@@ -1,7 +1,7 @@
 #include "display/graphics.h"
 #include <string.h>
 /* Compact original 5x7 uppercase glyph rows; bit 4 is the leftmost pixel. */
-static const char characters[]="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-/:+ <>=?";
+static const char characters[]="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ.-/:+ <>=?msuk";
 static const uint8_t glyphs[][7]={
  {14,17,19,21,25,17,14},{4,12,4,4,4,4,14},{14,17,1,2,4,8,31},{30,1,1,14,1,1,30},
  {2,6,10,18,31,2,2},{31,16,16,30,1,1,30},{14,16,16,30,17,17,14},{31,1,2,4,8,8,8},
@@ -17,7 +17,8 @@ static const uint8_t glyphs[][7]={
  {17,17,10,4,4,4,4},{31,1,2,4,8,16,31},
  {0,0,0,0,0,6,6},{0,0,0,31,0,0,0},{1,2,2,4,8,8,16},
  {0,6,6,0,6,6,0},{0,4,4,31,4,4,0},{0,0,0,0,0,0,0},
- {2,4,8,16,8,4,2},{8,4,2,1,2,4,8},{0,0,31,0,31,0,0},{14,17,1,2,4,0,4}
+ {2,4,8,16,8,4,2},{8,4,2,1,2,4,8},{0,0,31,0,31,0,0},{14,17,1,2,4,0,4},
+ {0,0,26,21,21,21,21},{0,0,15,16,14,1,30},{0,0,17,17,17,19,13},{16,16,18,20,24,18,17}
 };
 void gfx_begin(gfx_tile_t *t,int x,int y,uint16_t bg)
 { t->x=x; t->y=y; for(unsigned i=0;i<TILE_SIZE*TILE_SIZE;++i) t->pixels[i]=bg; }
@@ -36,14 +37,20 @@ void gfx_rect(gfx_tile_t *t,int x,int y,int w,int h,uint16_t color)
 }
 void gfx_text(gfx_tile_t *t,int x,int y,const char *text,uint16_t color)
 {
-    if(y+7<=t->y || y>=t->y+TILE_SIZE) return;
-    for(;*text;++text,x+=6) {
-        if(x+5<=t->x || x>=t->x+TILE_SIZE) continue;
+    gfx_text_scaled(t,x,y,text,color,1);
+}
+void gfx_text_scaled(gfx_tile_t *t,int x,int y,const char *text,uint16_t color,unsigned scale)
+{
+    if(!scale || scale>4) return;
+    int size=(int)scale;
+    if(y+7*size<=t->y || y>=t->y+TILE_SIZE) return;
+    for(;*text;++text,x+=6*size) {
+        if(x+5*size<=t->x || x>=t->x+TILE_SIZE) continue;
         char ch=*text;
-        if(ch>='a' && ch<='z') ch=(char)(ch-'a'+'A');
         const char *found=strchr(characters,ch);
-        unsigned id=found?(unsigned)(found-characters):sizeof(characters)-2;
+        if(!found && ch>='a' && ch<='z') found=strchr(characters,ch-'a'+'A');
+        unsigned id=found?(unsigned)(found-characters):(unsigned)(strchr(characters,'?')-characters);
         for(int row=0;row<7;++row) for(int col=0;col<5;++col)
-            if(glyphs[id][row]&(1u<<(4-col))) gfx_pixel(t,x+col,y+row,color);
+            if(glyphs[id][row]&(1u<<(4-col))) gfx_rect(t,x+col*size,y+row*size,size,size,color);
     }
 }
