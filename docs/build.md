@@ -43,6 +43,12 @@ Select cycles through time scale, voltage scale, trigger level, edge, mode,
 and view. +/− edit the selected field. Run/Stop holds or resumes; Run rearms
 Single mode after a capture.
 
+The footer shows voltage scale, DC coupling, time scale, and trigger mode.
+The small readout lists minimum (L), maximum (H), peak-to-peak (PP), mean (AV),
+and RMS (R) in mV, followed by frequency in Hz. The waveform center is 1.65 V.
+In FFT view, PK marks the automatic peak-voltage scale and the readout includes
+the frequency span.
+
 `cmake --preset debug -DSCOPE_DEMO_DAC=ON` enables the nominal 1 kHz source
 on PA4. After rebuilding and flashing, PA4 can feed the analog front end.
 Set the option back to `OFF` to disable it. Start with 1 ms/div and 500 mV/div.

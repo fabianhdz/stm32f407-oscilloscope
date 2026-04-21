@@ -8,6 +8,10 @@ typedef struct {
     char text[8][54];
     int marker;
     scope_view_t view;
+    control_field_t field;
+    trigger_edge_t edge;
+    uint16_t trigger_index;
+    bool has_capture;
     bool initialized;
     uint32_t tiles_sent,frames;
 } renderer_t;

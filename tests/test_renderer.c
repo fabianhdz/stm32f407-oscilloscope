@@ -22,6 +22,9 @@ int main(void)
     for(unsigned i=0;i<SCOPE_SAMPLES;++i) result.capture.samples[i]=2048;
     assert(renderer_draw(&renderer,&result,&s,FIELD_TIME,&c,sink,screen));
     assert(transfers==300);
+    assert(screen[4*320+4]==0x07e0); /* green RUN label */
+    assert(screen[29*320+40]==0x39e7 && screen[30*320+40]==0x0843); /* dotted grid */
+    assert(screen[202*320+105]==0xdefb); /* selected time scale */
     transfers=0;
     assert(renderer_draw(&renderer,&result,&s,FIELD_TIME,&c,sink,screen));
     assert(transfers==0);
@@ -43,5 +46,20 @@ int main(void)
     transfers=0; fail_at=0;
     assert(renderer_draw(&renderer,&result,&s,FIELD_VIEW,&c,sink,screen));
     assert(transfers==300 && memcmp(screen,fresh,sizeof screen)==0);
+    /* Move markers away from the center before switching views and controls. */
+    for(unsigned i=0;i<SCOPE_SAMPLES;++i) result.capture.samples[i]=500;
+    s.view=VIEW_WAVEFORM; s.trigger_code=1000;
+    assert(renderer_draw(&renderer,&result,&s,FIELD_TIME,&c,sink,screen));
+    for(unsigned state=0;state<12;++state) {
+        s.view=state%2 ? VIEW_WAVEFORM:VIEW_SPECTRUM;
+        s.edge=state%2 ? EDGE_RISING:EDGE_FALLING;
+        s.running=state%3!=0;
+        s.trigger_code=state%3==0 ? 0:state%3==1 ? 2048:4095;
+        control_field_t field=(control_field_t)(state%FIELD_COUNT);
+        assert(renderer_draw(&renderer,&result,&s,field,&c,sink,screen));
+        memset(&reference,0,sizeof reference);
+        assert(renderer_draw(&reference,&result,&s,field,&c,sink,fresh));
+        assert(memcmp(screen,fresh,sizeof screen)==0);
+    }
     return 0;
 }
