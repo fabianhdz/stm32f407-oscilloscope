@@ -1,5 +1,5 @@
 Reference,Quantity,Part,Specification,Notes
-U1,1,STM32F407 development board,512KB or more flash; exposed SWD/GPIO,Already owned; verify board schematic
+U1,1,STM32F407 development board,512KB or more flash; exposed SWD/GPIO,
 LCD1,1,ILI9341 TFT breakout,320x240; 4-wire SPI; 3.3V logic,2.4 or 2.8 inch; select a module with documented supply and backlight circuitry
 U2,1,MCP6022-I/P,PDIP-8 dual rail-to-rail op amp,3.3V supply; do not substitute an LM358
 R1,1,1k resistor,1 percent,Input series resistor
