@@ -4,9 +4,9 @@ Single-channel oscilloscope firmware for the STM32F407, written in C with
 FreeRTOS and CMSIS-DSP. An ILI9341 SPI display shows the waveform, voltage
 measurements, and FFT spectrum.
 
-![DLO-138-SPI reference build](docs/images/dlo138-reference.jpg)
+![Firmware display](docs/images/display.png)
 
-Reference build: [DLO-138-SPI](https://ss1.xrea.com/harahore.g2.xrea.com/STM32/DLO-138-SPI.html).
+Firmware-rendered preview using test samples.
 
 - 12-bit ADC, configured from 10 kS/s to 1 MS/s.
 - 2,048-sample captures with 25% pre-trigger history.
