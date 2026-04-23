@@ -16,7 +16,7 @@ endobj
 << /Type /Font /Subtype /Type1 /BaseFont /Courier-Bold >>
 endobj
 6 0 obj
-<< /Length 15578 >>
+<< /Length 15348 >>
 stream
 q
 0.66141667 0 0 0.66134328 0 0 cm
@@ -305,8 +305,7 @@ S
 702.209139 1024 704 1025.790861 704 1028 c
 B
 BT /F1 15 Tf 725 1043 Td (ADC) Tj ET
-BT /F2 22 Tf 839.6 1161 Td (U1  STM32F407 BOARD) Tj ET
-BT /F1 15 Tf 920.0 1135 Td (PORT NAMES) Tj ET
+BT /F2 22 Tf 879.2 1161 Td (U1  STM32F407) Tj ET
 2 w
 800 1118 m
 1130 1118 l
@@ -330,10 +329,6 @@ BT /F1 17 Tf 1087.4 763 Td (PA2) Tj ET
 BT /F1 17 Tf 1087.4 718 Td (PA3) Tj ET
 BT /F1 17 Tf 1087.4 643 Td (PA4) Tj ET
 BT /F1 17 Tf 1087.4 578 Td (PE3) Tj ET
-BT /F1 22 Tf 899.0 953 Td (CORTEX-M4F) Tj ET
-BT /F1 19 Tf 913.7 916 Td (ADC + DMA) Tj ET
-BT /F1 19 Tf 919.4 881 Td (FreeRTOS) Tj ET
-BT /F1 16 Tf 912.2 838 Td (3.3 V LOGIC) Tj ET
 BT /F1 17 Tf 898.7 491 Td (3V3       GND) Tj ET
 2 w
 905 473 m
@@ -1094,5 +1089,5 @@ xref
 trailer
 << /Size 7 /Root 1 0 R >>
 startxref
-16035
+15805
 %%EOF
