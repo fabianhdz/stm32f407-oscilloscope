@@ -5,7 +5,7 @@
 #include "display/controls.h"
 typedef struct {
     plot_column_t previous[SCOPE_COLUMNS];
-    char text[8][54];
+    char text[5][16];
     int marker;
     scope_view_t view;
     control_field_t field;

@@ -85,7 +85,7 @@ bool renderer_draw(renderer_t *r,const scope_result_t *result,const scope_settin
                    control_field_t field,const scope_calibration_t *cal,tile_sink_fn sink,void *ctx)
 {
     plot_column_t columns[SCOPE_COLUMNS];
-    char text[8][54]={{0}};
+    char text[5][16]={{0}};
     bool dirty[15][20]={{false}};
     bool valid=result && result->capture.valid;
     float spectrum_scale=0.01f;
@@ -94,41 +94,15 @@ bool renderer_draw(renderer_t *r,const scope_result_t *result,const scope_settin
     else for(unsigned x=0;x<SCOPE_COLUMNS;++x) columns[x]=(plot_column_t){0,-1};
 
     static const char *const modes[]={"AUTO","NORM","SING"};
-    snprintf(text[0],54,"%s",s->running?"RUN":"HOLD");
+    snprintf(text[0],sizeof text[0],"%s",s->running?"RUN":"HOLD");
     unsigned scale=s->view==VIEW_SPECTRUM ?
         (unsigned)lroundf(spectrum_scale*1000):scope_voltscale_mv[s->voltscale];
-    format_voltage(text[1],54,scale);
+    format_voltage(text[1],sizeof text[1],scale);
     uint32_t time=scope_timebase_us[s->timebase];
-    if(time<1000) snprintf(text[2],54,"%luus",(unsigned long)time);
-    else snprintf(text[2],54,"%lums",(unsigned long)(time/1000));
-    snprintf(text[3],54,"%s",modes[s->mode]);
-    snprintf(text[5],54,"%s",s->view==VIEW_WAVEFORM?"CH1":"FFT");
-    char frequency[16];
-    if(valid && result->peak_valid)
-        snprintf(frequency,sizeof frequency,"%luHz",(unsigned long)lroundf(result->peak_hz));
-    else strcpy(frequency,"--");
-    if(!valid) snprintf(text[4],54,"WAITING FOR TRIGGER");
-    else if(s->view==VIEW_WAVEFORM) {
-        snprintf(text[4],54,"mV L%ld H%ld PP%ld AV%ld R%ld F%s",
-            (long)lroundf(result->volts.minimum*1000),
-            (long)lroundf(result->volts.maximum*1000),
-            (long)lroundf(result->volts.peak_to_peak*1000),
-            (long)lroundf(result->volts.mean*1000),
-            (long)lroundf(result->volts.rms*1000),frequency);
-    } else {
-        snprintf(text[4],54,"F%s A%ldmVpk 0..%luHz TOP%umV",frequency,
-            (long)lroundf(result->peak_volts*1000),
-            (unsigned long)(result->capture.sample_rate_hz/2),scale);
-    }
-    if(field==FIELD_LEVEL)
-        snprintf(text[4],54,"TRIGGER %ldmV  %s",
-            (long)lroundf(sample_volts(s->trigger_code,cal)*1000),s->edge==EDGE_RISING?"RISING":"FALLING");
-    else if(field==FIELD_EDGE)
-        snprintf(text[4],54,"EDGE %s   + / - TO CHANGE",s->edge==EDGE_RISING?"RISING":"FALLING");
-    else if(field==FIELD_VIEW)
-        snprintf(text[4],54,"VIEW %s   + / - TO CHANGE",s->view==VIEW_WAVEFORM?"WAVEFORM":"SPECTRUM");
-    if(valid && result->volts.clipped && strlen(text[4])+5<sizeof(text[4]))
-        strcat(text[4]," CLIP");
+    if(time<1000) snprintf(text[2],sizeof text[2],"%luus",(unsigned long)time);
+    else snprintf(text[2],sizeof text[2],"%lums",(unsigned long)(time/1000));
+    snprintf(text[3],sizeof text[3],"%s",modes[s->mode]);
+    snprintf(text[4],sizeof text[4],"%s",s->view==VIEW_WAVEFORM?"CH1":"FFT");
 
     int marker=-1;
     if(s->view==VIEW_WAVEFORM) {
@@ -144,11 +118,11 @@ bool renderer_draw(renderer_t *r,const scope_result_t *result,const scope_settin
                 dirty_column(dirty,x,r->previous[x]);
                 dirty_column(dirty,x,columns[x]);
             }
-        if(strcmp(text[0],r->text[0]) || strcmp(text[5],r->text[5]) ||
+        if(strcmp(text[0],r->text[0]) || strcmp(text[4],r->text[4]) ||
            trigger_index!=r->trigger_index || valid!=r->has_capture || field!=r->field)
             dirty_rect(dirty,0,0,320,24);
         bool footer_changed=field!=r->field || s->edge!=r->edge || s->view!=r->view;
-        for(unsigned i=1;i<=4;++i) if(strcmp(text[i],r->text[i])) footer_changed=true;
+        for(unsigned i=1;i<=3;++i) if(strcmp(text[i],r->text[i])) footer_changed=true;
         if(footer_changed) dirty_rect(dirty,0,200,320,40);
         if(s->view!=r->view) dirty_rect(dirty,0,PLOT_Y+82,10,13);
         if(marker!=r->marker || field!=r->field) {
@@ -182,7 +156,7 @@ bool renderer_draw(renderer_t *r,const scope_result_t *result,const scope_settin
             int grip=75+(int)((uint32_t)trigger_index*170u/SCOPE_SAMPLES);
             gfx_rect(&tile,grip-5,8,11,9,status);
         }
-        gfx_text_scaled(&tile,276,4,text[5],s->view==VIEW_WAVEFORM?COLOR_WAVE:COLOR_FFT,2);
+        gfx_text_scaled(&tile,276,4,text[4],s->view==VIEW_WAVEFORM?COLOR_WAVE:COLOR_FFT,2);
         gfx_text_scaled(&tile,4,207,text[1],s->view==VIEW_WAVEFORM?COLOR_WAVE:COLOR_FFT,2);
         gfx_text_scaled(&tile,72,207,s->view==VIEW_WAVEFORM?"DC":"PK",COLOR_TEXT,2);
         gfx_text_scaled(&tile,112,207,text[2],COLOR_TEXT,2);
@@ -193,7 +167,6 @@ bool renderer_draw(renderer_t *r,const scope_result_t *result,const scope_settin
         else if(field==FIELD_MODE) outline(&tile,205,FOOTER_Y,78,24,COLOR_TEXT);
         else if(field==FIELD_EDGE) outline(&tile,289,FOOTER_Y,28,24,COLOR_TEXT);
         else if(field==FIELD_VIEW) outline(&tile,272,1,46,22,COLOR_TEXT);
-        gfx_text(&tile,4,231,text[4],COLOR_TEXT);
         if(!sink((unsigned)tile.x,(unsigned)tile.y,tile.pixels,ctx)) {
             r->initialized=false;
             return false;

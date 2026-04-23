@@ -6,6 +6,11 @@ static renderer_t renderer,reference;
 static scope_result_t result;
 static unsigned transfers;
 static unsigned fail_at;
+static void assert_bottom_clear(void)
+{
+    for(unsigned y=226;y<240;++y)
+        for(unsigned x=0;x<320;++x) assert(screen[y*320+x]==0x0843);
+}
 static bool sink(unsigned x,unsigned y,const uint16_t *pixels,void *ctx)
 {
     uint16_t *image=ctx;
@@ -25,6 +30,7 @@ int main(void)
     assert(screen[4*320+4]==0x07e0); /* green RUN label */
     assert(screen[29*320+40]==0x39e7 && screen[30*320+40]==0x0843); /* dotted grid */
     assert(screen[202*320+105]==0xdefb); /* selected time scale */
+    assert_bottom_clear();
     transfers=0;
     assert(renderer_draw(&renderer,&result,&s,FIELD_TIME,&c,sink,screen));
     assert(transfers==0);
@@ -57,6 +63,7 @@ int main(void)
         s.trigger_code=state%3==0 ? 0:state%3==1 ? 2048:4095;
         control_field_t field=(control_field_t)(state%FIELD_COUNT);
         assert(renderer_draw(&renderer,&result,&s,field,&c,sink,screen));
+        assert_bottom_clear();
         memset(&reference,0,sizeof reference);
         assert(renderer_draw(&reference,&result,&s,field,&c,sink,fresh));
         assert(memcmp(screen,fresh,sizeof screen)==0);

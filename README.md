@@ -1,8 +1,8 @@
 # STM32F407 Digital Oscilloscope
 
 Single-channel oscilloscope firmware for the STM32F407, written in C with
-FreeRTOS and CMSIS-DSP. An ILI9341 SPI display shows the waveform, voltage
-measurements, and FFT spectrum.
+FreeRTOS and CMSIS-DSP. An ILI9341 SPI display shows the waveform and FFT
+spectrum.
 
 ![Firmware display](docs/images/display.png)
 
@@ -12,7 +12,7 @@ Firmware-rendered preview using test samples.
 - 2,048-sample captures with 25% pre-trigger history.
 - Rising/falling triggers, Auto/Normal/Single modes, and Run/Stop.
 - 20 µs/div–20 ms/div and 50 mV/div–1 V/div.
-- Min, max, peak-to-peak, mean, RMS, and dominant frequency.
+- Voltage statistics and dominant-frequency analysis in the processing task.
 
 TIM2 triggers the ADC and DMA fills a rotating buffer pool. Separate tasks
 handle capture, processing, input, and display. The renderer preserves narrow
