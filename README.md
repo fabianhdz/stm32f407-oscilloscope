@@ -4,9 +4,7 @@ Single-channel oscilloscope firmware for the STM32F407, written in C with
 FreeRTOS and CMSIS-DSP. An ILI9341 SPI display shows the waveform and FFT
 spectrum.
 
-![Firmware display](docs/images/display.png)
-
-Firmware-rendered preview using test samples.
+![Oscilloscope display](docs/images/o_image.png)
 
 - 12-bit ADC, configured from 10 kS/s to 1 MS/s.
 - 2,048-sample captures with 25% pre-trigger history.
